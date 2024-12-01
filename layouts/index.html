@@ -1,0 +1,46 @@
+{{ define "main" }}
+<div class="cf pv3 pv4-l f4 tc-l center lh-copy {{ $.Param "text_color" | default "navy" }}">
+    {{ $mainSections := .Site.Params.mainSections | default (slice "mainpage") }}
+    {{range (first 1 $mainSections)}}
+    {{ $section_name := . }}
+    {{ $section := where $.Site.RegularPages "Section" "in" $section_name }}
+      {{ range $section }}
+        <div class="pv4-l {{ .Params.section_style | default "white" }}">
+<div class="cf pv3 pv4-l f4 tc-l measure-wide center lh-copy {{ $.Param "text_color" | default "navy" }}">
+          {{ .Content }}
+	</div>
+        </div>
+      {{ end }}
+
+    {{ end }}
+  </div>
+{{ if isset .Site.Data "speakers"}}
+{{$speakers_count := len .Site.Data.speakers}}
+{{ if ge $speakers_count 1}}
+    <div class="{{ $.Param "text_color" | default "navy" }} alternating-col-section-invert">
+    <div class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy">
+      <h2>Speakers</h2>
+    </div>
+    {{ range .Site.Data.speakers }}
+    <div class="dt mw6 center pt0 pv5-m pv2-ns">
+      <div class="db dtc-ns v-mid-ns">
+        <img src="{{ .avatar | absURL }}" alt="" class="w-100 mw7 w5-ns" />
+      </div>
+      <div class="db dtc-ns v-mid ph2 pr0-ns pl3-ns">
+        <p class="lh-copy">
+          <h4>{{ .talktitle }}</h4>
+          <p>{{ .name }}</p>
+          <p>{{ .position }}</p>
+          {{ .abstract | markdownify }}
+        </p>
+      </div>
+    </div>
+    
+    {{end}}
+    </div>
+{{end}}
+{{end}}
+</div>
+{{end}}
+    
+ 
